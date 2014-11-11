@@ -22,7 +22,11 @@ table { border-spacing: 0; border-collapse: collapse; width: 100%; }
 
 body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; }
 
-.l { *zoom: 1; }
-.l:after { content: " "; display: table; clear: both; }
-.l .l-col1 { float: left; width: 20%; }
-.l .l-col2 { float: right; width: 70%; }
+.video { position: relative; width: 480px; height: 320px; z-index: 2; }
+.video.is-play { z-index: 999; }
+.video.is-play .video__el { z-index: 6; }
+.video.is-loading .video__above { background: red; }
+.video .video__above, .video .video__el { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.video .video__above { background: green; z-index: 4; }
+
+.overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 4; }

@@ -4,19 +4,75 @@
 	<meta charset="utf-8">
 	<title>Template</title>
 	<meta name="viewport" content="initial-scale=1">
-	<meta name="format-detection" content="telephone=no">
-	<!-- <meta name="viewport" content="width=1200"> -->
-	<!-- <meta name="viewport" content="initial-scale=1, user-scalable=no"> -->
-	<link rel="stylesheet" media="all" href="css/screen.css" >
-	<!--[if IE]><script src="js/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" media="all" href="css/screen.css">
+	<script src="http://www.youtube.com/player_api"></script>
+	<script src="js/lib/jquery.js"></script>
+	<script>
+		// this function gets called when API is ready to use
+		function onYouTubePlayerAPIReady() {
+			var video = $('.video'),
+					video_above = video.find('.video__above'),
+					video_el = video.find('.video__above'),
+					overlay = $('.overlay'),
+					body = $('body'),
+					player;
+			// video
+			video_above.on('click', function (event) {
+				event.preventDefault();
+				var video = $(this).parent(),
+						video_link = $(this).attr('href'),
+						video_id = $(this).data('id');
+				if (!video.hasClass('is-loaded')) {
+					video.addClass('is-loading');
+					$(this).after('<iframe id="' + video_id + '" class="video__el" width="480" height="320" src="' + video_link + '?enablejsapi=1&html5=1&version=3" frameborder="0" allowfullscreen></iframe>');
+					// create the global player from the specific iframe (video_id)
+					player = new YT.Player(video_id, {
+						videoId: video_link,
+					  events: {
+					    // call this function when player is ready to use
+					    'onReady': onPlayerReady
+					  }
+					});
+					function onPlayerReady () {
+						player.playVideo();
+						video.removeClass('is-loading');
+						video.addClass('is-loaded');
+					}
+				}
+				else {
+
+
+					// need get youtube player
+
+
+					// play
+					player.playVideo();
+				}
+				video.addClass('is-play');
+				overlay.show();
+			});
+			overlay.on('click', function() {
+			  video.removeClass('is-play');
+			  overlay.hide();
+			  // pause
+			  player.pauseVideo();
+			});
+		}
+	</script>
 </head>
 <body>
-<!-- BEGIN  out-->
-<div class="out">
-
+<!-- wrapper -->
+<div class="wrapper">
+	<!-- video -->
+	<div class="video">
+		<a class="video__above" href="http://www.youtube.com/embed/nDgamNLmZZE" data-id="video1"></a>
+	</div>
+	<!-- video -->
+	<div class="video">
+		<a class="video__above" href="http://www.youtube.com/embed/nDgamNLmZZE" data-id="video2"></a>
+	</div>
 </div>
-<!-- END out-->
-<!-- load scripts -->
-<script src="js/lib/head.js" data-headjs-load="js/init.js"></script>
+<!-- overlay -->
+<div class="overlay"></div>
 </body>
 </html>
