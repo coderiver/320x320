@@ -12,20 +12,19 @@
 		// this function gets called when API is ready to use
 		function onYouTubePlayerAPIReady() {
 			var video = $('.video'),
-					video_above = video.find('.video__above'),
 					video_el = video.find('.video__above'),
 					overlay = $('.overlay'),
 					body = $('body'),
 					players = {};
 			// video
-			video_above.on('click', function (event) {
+			body.on('click', '.video__above', function (event) {
 				event.preventDefault();
 				var video = $(this).parent(),
 						video_link = $(this).attr('href'),
 						video_id = $(this).data('id');
 				if (!video.hasClass('is-loaded')) {
 					video.addClass('is-loading');
-					$(this).after('<iframe id="' + video_id + '" class="video__el" width="480" height="320" src="' + video_link + '?enablejsapi=1&html5=1&version=3" frameborder="0" allowfullscreen></iframe>');
+					$(this).after('<iframe id="' + video_id + '" class="video__el" src="' + video_link + '?enablejsapi=1&html5=1&version=3" frameborder="0" allowfullscreen></iframe>');
 					// create the global player from the specific iframe (video_id)
 					players[video_id] = new YT.Player(video_id, {
 						videoId: video_link,
